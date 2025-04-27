@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const App =()=>{
 
-    const sciname =["sin","cos","In","log","tan","e","^","!","√"]
+    const sciname =["sin","cos","ln","log","tan","e","^","!","√","π"]
 
 
     const basickey=["7","8","9","*","/","4","5",
@@ -13,43 +13,40 @@ const App =()=>{
    const [disexp ,setdisexp] = useState("");
       
    const scical ={
-    sin:"math.sin",
-    cos:"math.cos",
-    tan:"math.tan",
-    In :"math.log",
-    log:"math.log10",
-    e:"math.E",
-    
+    sin:"Math.sin",
+    cos:"Math.cos",
+    tan:"Math.tan", 
+    ln :"Math.log",
+    log:"Math.log10",
+    π:"Math.PI",
+    e:"Math.E",
     "^":"**",
-    "√":"math.sqrt"
+    "√":"Math.sqrt",
+    
 
    }
-
-
+   
+   
    function calcResult() {
-    if(expression.length !==0){
+    if(expression.length !==0 ) {
       try{
         let cal= eval(expression);
+        cal=parseFloat(cal.toFixed(4))
         setresult(cal);
       }
       catch(error){
             setresult("ERROR")
       }
+     
       
     }
+    else{
+      setresult("ERROR")
+
+    }
    }
-        // function lastnum(exp) {
-        //   const  num=exp.match(/\d+/g);
-        //   return num ? num[num.length -1]:null;
-        // }
-        // function factorial(n) {
-        //   let result =1;
-        //   for (let i = 1; i <=n; i++){
-        //      result *=i
-        //      return result;           
-        //   }
+        
           
-        // }
    function handlebutton(value) {
     if (value==="AC") {
       setexpression("");
@@ -62,10 +59,10 @@ const App =()=>{
     } 
     else if(scical.hasOwnProperty(value)){
       setdisexp(disexp + value),
-      setexpression(expression + scical(value))
+      setexpression(expression + scical[value])
     }
-    else if(value ==="!"){
-        const lastnum = Lastnumber(expression);
+    else if(value ==="!" ){
+        const lastnum = extractLastNum(expression);
         if(lastnum != null){
            const num = parseFloat(lastnum);
            setdisexp(disexp + value);
@@ -99,6 +96,8 @@ const App =()=>{
     return num ? num[num.length -1]:null;
   }
   
+
+
   
   return(
     
